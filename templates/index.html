@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Gesture Volume</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+
+<body>
+
+<h1>GestureVolume - Hand Gesture Control</h1>
+
+<div class="main">
+
+    <!-- LEFT -->
+    <div class="left">
+
+        <div class="video-box">
+            <img id="video-feed" src="" />
+
+            <div id="overlayText" class="overlay">
+                Click Start to begin
+            </div>
+        </div>
+
+        <div class="info">
+            <p id="volumeText">Volume: 0%</p>
+            <p id="distanceText">Distance: -- px</p>
+        </div>
+
+        <div class="volume-ui">
+            <div id="volumePercent">0%</div>
+
+            <div class="progress-bar">
+                <div id="progressFill"></div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- RIGHT -->
+    <div class="right">
+
+        <div class="card">
+            <h3>Camera Controls</h3>
+            <button id="startBtn" class="start">▶ Start Camera</button>
+            <button id="stopBtn" class="stop" disabled>■ Stop Camera</button>
+        </div>
+
+        <div class="card">
+            <h3>System Status</h3>
+
+            <div class="status-grid">
+
+                <div class="status-card">
+                    <p class="gray">Camera</p>
+                    <p id="camStatus" class="green">Inactive</p>
+                </div>
+
+                <div class="status-card">
+                    <p class="gray">Gesture</p>
+                    <p id="gestureStatus" class="yellow">Idle</p>
+                </div>
+
+                <div class="status-card">
+                    <p class="gray">Type</p>
+                    <p id="gestureType" class="blue">-</p>
+                </div>
+
+                <div class="status-card">
+                    <p class="gray">Quality</p>
+                    <p id="gestureQuality" class="green">-</p>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="card">
+            <h3>User Guide</h3>
+            <ul>
+                <li>Click Start to activate camera</li>
+                <li>Show your hand</li>
+                <li>Move thumb & index finger</li>
+                <li>Distance controls volume</li>
+                <li>Click Stop to exit</li>
+            </ul>
+        </div>
+
+    </div>
+
+</div>
+
+<script>
+const video = document.getElementById("video-feed")
+const startBtn = document.getElementById("startBtn")
+const stopBtn = document.getElementById("stopBtn")
+const overlay = document.getElementById("overlayText")
+
+startBtn.onclick = async () => {
+    await fetch("/start")
+    video.src = "/video?" + Date.now()
+
+    overlay.style.display = "none"
+
+    startBtn.disabled = true
+    stopBtn.disabled = false
+
+    document.getElementById("camStatus").innerText = "Active"
+    document.getElementById("gestureStatus").innerText = "Detecting"
+}
+
+stopBtn.onclick = async () => {
+    await fetch("/stop")
+    video.src = ""
+
+    overlay.style.display = "block"
+
+    startBtn.disabled = false
+    stopBtn.disabled = true
+
+    document.getElementById("camStatus").innerText = "Inactive"
+    document.getElementById("gestureStatus").innerText = "Idle"
+}
+
+setInterval(async () => {
+    if (!stopBtn.disabled) {
+        const res = await fetch("/volume")
+        const data = await res.json()
+
+        const vol = data.volume
+
+        document.getElementById("volumeText").innerText =
+            "Volume: " + vol + "%"
+
+        document.getElementById("distanceText").innerText =
+            "Distance: " + data.distance + " px"
+
+        document.getElementById("progressFill").style.width =
+            vol + "%"
+
+        document.getElementById("volumePercent").innerText =
+            vol + "%"
+
+        document.getElementById("gestureType").innerText =
+            vol > 50 ? "Volume Up" : "Volume Down"
+
+        document.getElementById("gestureQuality").innerText =
+            data.distance > 50 ? "Good" : "Low"
+    }
+}, 300)
+</script>
+
+</body>
+</html>

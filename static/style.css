@@ -1,0 +1,139 @@
+body {
+  margin: 0;
+  font-family: Arial;
+  background: #030712;
+  color: white;
+  padding: 20px;
+}
+
+h1 {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+/* MAIN LAYOUT */
+.main {
+  display: flex;
+  gap: 1px;
+}
+
+/* LEFT SIDE (70%) */
+.left {
+  flex: 7;   
+
+}
+
+/* RIGHT SIDE (30%) */
+.right {
+  flex: 3;
+   margin-left: -5px;
+}
+
+/* VIDEO BOX */
+.video-box {
+  width: 75%;
+  background: #020617;
+  border-radius: 10px;
+  padding: 10px;
+  position: relative;
+}
+
+/*  BIG FRAME */
+#video-feed {
+  width: 100%;
+  height: 450px;          
+  object-fit: cover;      
+  border-radius: 10px;
+  background: black;
+}
+
+/* OVERLAY CENTER */
+.overlay {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: #9ca3af;
+  font-size: 18px;
+}
+
+/* INFO BELOW FRAME */
+.info {
+  margin-top: 6px;
+}
+
+.info p {
+  margin: 10px 0;
+  color: #22c55e;
+  font-size: 16px;
+}
+
+/* VOLUME BAR BELOW */
+.volume-ui {
+  margin-top: 10px;
+  text-align: center;
+}
+
+#volumePercent {
+  font-size: 20px;
+  margin-bottom: 5px;
+  text-align: left;
+  margin-left: 2px;
+}
+
+/* BAR */
+.progress-bar {
+  width: 50%;
+  height: 6px;
+  background: #2c2c2c;
+  border-radius: 20px;
+  margin: 6px 0;
+}
+
+#progressFill {
+  height: 100%;
+  width: 0%;
+  background: linear-gradient(90deg, #00f5d4, #00c2ff);
+  border-radius: 20px;
+  transition: width 0.3s;
+}
+
+/* CARDS */
+.card {
+  background: #111827;
+  padding: 15px;
+  border-radius: 15px;
+  margin-bottom: 15px;
+}
+
+/* BUTTONS */
+button {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 10px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.start { background: #16a34a; }
+.stop { background: #dc2626; }
+
+/* STATUS */
+.status-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.status-card {
+  background: #1f2937;
+  padding: 10px;
+  border-radius: 10px;
+  text-align: center;
+}
+
+.gray { color: #9ca3af; }
+.green { color: #22c55e; }
+.yellow { color: #eab308; }
+.blue { color: #3b82f6; }
